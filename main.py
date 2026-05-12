@@ -71,6 +71,7 @@ def slumpa_ansikte():
     ogon = random.choice(ogon_lista)
     mun = random.choice(mun_lista)
     ram = random.choice(ram_lista)
+
     return skapa_ansikte(ogon, mun, ram)
 
     """
@@ -95,19 +96,7 @@ def skriv_ut_kluster(bredd, hojd, ansikte):
     for rad in range(hojd):
         for kolumn in range(bredd):
             print(ansikte, end=" ")
-            print()
-    """
-    Skriver ut ett kluster (rutnät) av samma ansikte.
-
-    Parametrar:
-        bredd (int): Antal ansikten per rad
-        hojd (int): Antal rader
-        ansikte (str): Ansiktet som ska upprepas
-    """
-    # TODO: Implementera funktionen
-    # Tips: Använd nästlade loopar (for rad in range(hojd): for kolumn in range(bredd))
-    # Tips: print(ansikte, end=" ") för att skriva ut på samma rad
-    # Tips: print() efter innerloopen för att byta rad
+        print()
     pass
 
 
@@ -115,31 +104,38 @@ def skriv_ut_slumpkluster(bredd, hojd):
     for rad in range(hojd):
         for kolumn in range(bredd):
             print(slumpa_ansikte(), end=" ")
-            print()
-    """
-    Skriver ut ett kluster (rutnät) med slumpade ansikten.
-
-    Parametrar:
-        bredd (int): Antal ansikten per rad
-        hojd (int): Antal rader
-    """
-    # TODO: Implementera funktionen
-    # Tips: Använd nästlade loopar
-    # Tips: Anropa slumpa_ansikte() för varje position
+        print()
     pass
 
 
 # === MENYFUNKTIONER ===
 
 # Listor för användarval (används i menyval 1)
-ogon_alternativ = ["o", "-", "^", "x", "T", ">", "@"]
+ogon_alternativ = ["0", "-", "^", "x", "T", ">", "@"]
 mun_alternativ = ["_", "o", "^", "x", "T"]
 ram_alternativ = ["()", "[]", "{}", "<>", "()]", "[)"]
 
 
 def skapa_eget_ansikte():
     while True:
-        print(f"Välj ett utav {ogon_alternativ}")
+        print(f"Välj ett utav dessa ögon alternativ")
+        for i, o in enumerate(ogon_alternativ, start=1):
+            print(f" {i}. {o}")
+        ogon = ogon_alternativ[int(input("Val: "))-1]
+
+        print("\nVälj mun: ")
+        for i, m in enumerate(mun_alternativ, start=1):
+            print(f"{i}. {m}")
+        mun = mun_alternativ[int(input("Val: "))-1]
+
+        print("\nVälj ram:")
+        for i, r in enumerate(ram_alternativ, start=1):
+            print(f"{i}. {r}")
+        ram = ram_alternativ[int(input("Val: "))-1]
+
+        ansikte = skapa_ansikte(ogon, mun, ram)
+        print(f"\nHär är ditt ansikte {ansikte}")
+        return ansikte
     """
     Låter användaren designa ett eget ansikte genom menyval.
     Skriver ut resultatet.
@@ -154,6 +150,18 @@ def skapa_eget_ansikte():
 
 
 def skapa_kluster():
+    print("\n1. Skapa eget ansikte")
+    print("\n2. Skapa slumpat ansikte")
+    val = input("Val: ")
+    if val == "1":
+        ansikte = skapa_eget_ansikte()
+    else:
+        ansikte = slumpa_ansikte()
+        print(f"Slumpat ansikte: {ansikte}")
+        bredd = int(input("Bredd: "))
+        hojd = int(input("Höjd: "))
+        print()
+        skriv_ut_kluster(bredd, hojd, ansikte)
     """
     Låter användaren skapa ett kluster med samma ansikte.
     Först väljer eller skapar användaren ett ansikte.
@@ -167,12 +175,18 @@ def skapa_kluster():
 
 
 def visa_slump_ansikte():
+    print(f"\n{slumpa_ansikte()}")
     """Visar ett slumpmässigt ansikte."""
     # TODO: Anropa slumpa_ansikte() och skriv ut resultatet
     pass
 
 
 def visa_slumpkluster():
+    bredd = int(input("Bredd: "))
+    hojd = int(input("Hojd: "))
+    print()
+    skriv_ut_slumpkluster(bredd, hojd)
+
     """
     Låter användaren skapa ett kluster med slumpade ansikten.
     Frågar efter bredd och höjd.
@@ -260,3 +274,6 @@ def rita_ansikte_med_turtle(ogon, mun, ram):
 # Starta programmet om filen körs direkt
 if __name__ == "__main__":
     huvudprogram()
+
+
+
