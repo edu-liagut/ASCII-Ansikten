@@ -41,7 +41,7 @@ Ett interaktivt program där användaren kan skapa, klustra och slumpa ASCII-ans
 """
 
 import random
-
+import json
 
 # === FUNKTIONER FÖR ANSIKTEN ===
 
@@ -67,6 +67,7 @@ def slumpa_ansikte():
     ogon_lista = ["·", "-", "0", "~", "3", "T", "x", "^"]
     mun_lista = ["_", "o", "U", "T"]
     ram_lista = ["()", "[]", "{}" "<>",]
+
 
     ogon = random.choice(ogon_lista)
     mun = random.choice(mun_lista)
@@ -243,6 +244,15 @@ def farglagg_ansikte(ansikte, farg_kod):
 
 
 def spara_ansikte_till_json(ansikte, filnamn="sparade_ansikten.json"):
+    try:
+        with open(filnamn, "r", encoding="utf-8") as fil:
+            lista=json.load(fil)
+    except FileNotFoundError:
+        return []
+    lista.append(ansikte)
+    fil = open(filnamn, "w", encoding="utf-8")
+    json.dump(lista, fil)
+    fil.close
     """Sparar ett ansikte till en JSON-fil."""
     # TODO: Importera json
     # TODO: Ladda befintlig lista, lägg till nytt ansikte, spara
@@ -250,10 +260,17 @@ def spara_ansikte_till_json(ansikte, filnamn="sparade_ansikten.json"):
 
 
 def ladda_ansikten_fran_json(filnamn="sparade_ansikten.json"):
-    """Laddar sparade ansikten från en JSON-fil."""
-    # TODO: Använd json.load() och returnera listan
-    pass
+    try:
+        with open(filnamn, "r", encoding="utf-8") as fil:
+            return json.load(fil)
+    except FileNotFoundError:
+        return []
 
+lista_1=ladda_ansikten_fran_json()
+print(lista_1)
+"""Laddar sparade ansikten från en JSON-fil."""
+# TODO: Använd json.load() och returnera listan
+pass
 
 # === TURTLE-UTMANING (FÖR DIG MED TURTLE) ===
 
